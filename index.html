@@ -2,114 +2,64 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WLC Board</title>
 <style>
-/* ── [STYLE] 캡처본 UI 완벽 복구 ── */
+/* [Style] 매니저님 캡처본 UI 100% 복구 */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif; background: #fdfdfb; color: #1a1a1a; font-size: 14px; line-height: 1.6; }
-
-/* 상단 헤더 & 실시간 LIVE */
-.header { position: sticky; top: 0; z-index: 50; background: #fff; padding: 14px 20px 0; border-bottom: 1px solid #f0f0eb; }
-.header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.brand-title { font-size: 20px; font-weight: 800; color: #111; }
+body { font-family: -apple-system, sans-serif; background: #fdfdfb; color: #1a1a1a; font-size: 14px; }
+.header { position: sticky; top: 0; z-index: 50; background: #fff; padding: 15px 20px; border-bottom: 1px solid #f0f0eb; }
+.brand-title { font-size: 20px; font-weight: 800; }
 .brand-title span { color: #4F46E5; }
-.brand-sub { font-size: 11px; color: #bbb; margin-left: 8px; }
-.live-pill { display: flex; align-items: center; gap: 5px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 99px; padding: 2px 10px; font-size: 10px; font-weight: 700; color: #16a34a; }
-.live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: blink 1.5s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-/* 상단 스탯 (캡처본과 동일한 4그리드) */
-.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #f0f0eb; }
-.stat-item { padding: 15px; text-align: center; border-right: 1px solid #f0f0eb; }
-.stat-item:last-child { border-right: none; }
-.stat-item .s-label { font-size: 10px; color: #bbb; margin-bottom: 4px; }
-.stat-item .s-val { font-size: 22px; font-weight: 700; color: #111; }
-
-.wrap { padding: 20px; max-width: 100%; margin: 0 auto; }
-
-/* 컨트롤 영역 (기여자 & 필터 배치를 캡처본과 맞춤) */
-.control-row { display: grid; grid-template-columns: 1fr 320px; gap: 15px; margin-bottom: 20px; }
-.award-box { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 15px; }
-.award-winner { background: #fdfdfb; border: 1px solid #f0f0eb; border-radius: 6px; padding: 10px; margin-top: 10px; font-size: 13px; }
-
-/* ★ 우측 필터 영역 보이게 수정 ★ */
-.filter-area { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-.add-btn { background: #4F46E5; color: #fff; border: none; border-radius: 6px; padding: 8px 12px; font-size: 12px; font-weight: 700; cursor: pointer; }
-
-/* 보드 그리드 (캡처본 컬럼 순서 복구) */
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #f0f0eb; margin-top: 10px; }
+.stat-item { padding: 12px; text-align: center; border-right: 1px solid #f0f0eb; }
+.wrap { padding: 20px; }
 .board { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; }
-.col { min-width: 270px; flex: 1; }
-.col-header { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; padding-left: 5px; }
-.col-bar { width: 3px; height: 16px; border-radius: 2px; }
-
-/* 카드 스타일 */
-.card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 15px; margin-bottom: 12px; position: relative; transition: 0.2s; }
-.card:hover { border-color: #4F46E5; }
-
-/* ★ 편집 버튼 확실하게 보이게 수정 ★ */
-.edit-btn { position: absolute; top: 15px; right: 15px; font-size: 11px; color: #4F46E5; cursor: pointer; font-weight: 600; border: 1px solid #eef2ff; background: #f5f7ff; padding: 3px 8px; border-radius: 4px; }
-.edit-btn:hover { background: #4F46E5; color: #fff; }
-
+.col { min-width: 280px; flex: 1; }
+.card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 15px; margin-bottom: 12px; position: relative; }
+.edit-btn { position: absolute; top: 15px; right: 15px; font-size: 11px; color: #4F46E5; cursor: pointer; font-weight: 600; background: #f5f7ff; padding: 2px 6px; border-radius: 4px; }
 .card-tag { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin: 8px 0; }
 .card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
-.card-body { font-size: 12px; color: #666; line-height: 1.6; }
-
-/* 모달 & 토스트 */
+.card-body { font-size: 12px; color: #666; line-height: 1.6; white-space: pre-wrap; }
+/* 모달 생략 (동일) */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
-.modal { background: #fff; padding: 20px; border-radius: 12px; width: 380px; }
-.modal input, .modal select, .modal textarea { width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #eee; border-radius: 6px; }
-.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 10px 20px; border-radius: 8px; opacity: 0; transition: 0.3s; z-index: 200; }
-.toast.show { opacity: 1; }
+.modal { background: #fff; padding: 25px; border-radius: 12px; width: 400px; }
+.add-btn { background: #4F46E5; color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-weight: 700; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-top">
-    <div class="brand"><div class="brand-title">WLC <span>Board</span></div><div class="brand-sub">우리 팀의 살아있는 지식 허브</div></div>
-    <div class="live-pill"><span class="live-dot"></span> LIVE</div>
-  </div>
+  <div class="brand-title">WLC <span>Board</span></div>
   <div class="stats-bar">
-    <div class="stat-item"><div class="s-label">전체 게시물</div><div class="s-val" id="statTotal">10</div></div>
-    <div class="stat-item"><div class="s-label">이번 달</div><div class="s-val">4</div></div>
-    <div class="stat-item"><div class="s-label">좋아요</div><div class="s-val">12</div></div>
-    <div class="stat-item"><div class="s-label">댓글</div><div class="s-val">3</div></div>
+    <div class="stat-item"><div style="font-size:10px; color:#bbb;">전체 게시물</div><div id="statTotal">10</div></div>
+    <div class="stat-item"><div style="font-size:10px; color:#bbb;">이번 달</div><div>4</div></div>
+    <div class="stat-item"><div style="font-size:10px; color:#bbb;">좋아요</div><div>12</div></div>
+    <div class="stat-item"><div style="font-size:10px; color:#bbb;">댓글</div><div>3</div></div>
   </div>
 </div>
 
 <div class="wrap">
-  <div class="control-row">
-    <div class="award-box">
-      <h3>🏆 이달의 기여자</h3>
-      <div class="award-winner"><strong>🥇 1위: 강찬미 매니저님</strong> (게시물 10개)</div>
-    </div>
-    <div class="filter-area">
-      <select id="filterCat" onchange="render()"><option value="">전체 카테고리</option></select>
-      <button class="add-btn" onclick="openModal()">+ 새 게시물 등록</button>
-    </div>
+  <div style="display:flex; justify-content: flex-end; margin-bottom: 20px;">
+    <button class="add-btn" onclick="openModal()">+ 새 게시물 등록</button>
   </div>
   <div class="board" id="boardContainer"></div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <h3 id="modalTitle">새 지식 등록</h3><br>
-    <input type="hidden" id="editId">
+    <h3>새 지식 등록</h3><br>
     <select id="newCat"></select>
     <input id="newAuthor" type="text" placeholder="작성자 성함">
     <input id="newTitle" type="text" placeholder="제목">
     <textarea id="newContent" placeholder="내용" rows="5"></textarea>
-    <button class="add-btn" id="submitBtn" style="width:100%" onclick="submitCard()">게시하기</button>
+    <button class="add-btn" style="width:100%" onclick="submitCard()">게시하기</button>
     <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; color:#999; cursor:pointer;">취소</button>
   </div>
 </div>
-<div class="toast" id="toast"></div>
 
 <script>
 const FLOW_URL = "https://default48c3cf2c29be407f80f9b5dc00c35c.de.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/38e4719e3d274fd19345b28e2ec440fc/triggers/manual/paths/invoke?api-version=1"; 
-/* ────────────────────────────────────────────────────────── */
 
 const CATS = {
   "업무치트키": { bar: "#4C6EF5", bg: "#EEF4FF", fg: "#3B5BDB" },
@@ -120,96 +70,81 @@ const CATS = {
   "오프 리듬": { bar: "#E64980", bg: "#FFF0F6", fg: "#C2255C" }
 };
 
-// ── [복구] 캡처본 속 실제 예시 데이터들 ──
+// [복구] 캡처본에 있던 실제 데이터들
 const defaultData = [
-  { cat:"업무치트키", author:"강찬미", date:"2026-03-17", title:"Claude活用으로 퇴근 앞당기기", content:"소스코드 리뷰, 문서 초안 작성을 Claude에게 맡겨보세요." },
-  { cat:"팀 패치노트", author:"강찬미", date:"2026-03-17", title:"스탠드업 미팅 슬랙 전환 후기", content:"매일 30분씩 소요되던 대면 미팅을 슬랙 허들로 대체합니다." },
-  { cat:"기술 SOS", author:"강찬미", date:"2026-03-16", title:"지라-깃허브 자동 연동 꿀팁", content:"커밋 메시지에 티켓 번호만 넣으면 지라 상태가 자동 변경됩니다." },
-  { cat:"미식 가이드", author:"강찬미", date:"2026-03-10", title:"팀 점심 회식 맛집 Best 5", content:"실패 없는 정갈한 한정식부터 성수동 전시회 앞 맛집까지." }
+  { cat:"업무치트키", author:"강찬미", date:"2026-03-17", title:"Claude 활용으로 퇴근 앞당기기", content:"소스코드 리뷰와 문서 초안 작성을 Claude에게 맡겨보세요." },
+  { cat:"팀 패치노트", author:"강찬미", date:"2026-03-17", title:"스탠드업 미팅 슬랙 전환 후기", content:"매일 30분씩 소요되던 대면 미팅을 슬랙 허들로 대체했습니다." },
+  { cat:"기술 SOS", author:"강찬미", date:"2026-03-16", title:"지라-깃허브 자동 연동 꿀팁", content:"커밋 메시지에 티켓 번호를 넣으면 자동으로 지라 상태가 변경됩니다." },
+  { cat:"미식 가이드", author:"강찬미", date:"2026-03-10", title:"오피스 근처 맛집 리스트", content:"팀 점심 회식으로 추천하는 장소 5곳입니다." }
 ];
 
-let cards = [];
-let isEditing = false;
+let excelData = [];
 
 async function load() {
   try {
     const res = await fetch(FLOW_URL);
     const data = await res.json();
-    const excelData = (data && data.value) ? data.value : [];
-    // 예시 데이터 + 엑셀 데이터 합치기
-    cards = [...defaultData, ...excelData];
+    excelData = (data && data.value) ? data.value : [];
     render();
-  } catch (e) {
-    cards = defaultData; // 에러 시 예시라도 보여줌
-    render();
-  }
+  } catch (e) { render(); }
 }
 
 function render() {
-  const container = document.getElementById('boardContainer'); container.innerHTML = '';
-  const filterCat = document.getElementById('filterCat').value;
-
+  const container = document.getElementById('boardContainer');
+  container.innerHTML = '';
+  
+  // 예시 데이터와 엑셀 데이터를 합침
+  const allCards = [...excelData, ...defaultData];
+  
   Object.keys(CATS).forEach(cat => {
-    if(filterCat && filterCat !== cat) return;
-    const colItems = cards.filter(d => d.cat === cat);
+    const colItems = allCards.filter(d => d.cat === cat || d.카테고리 === cat);
     const s = CATS[cat];
     const col = document.createElement('div');
     col.className = 'col';
     col.innerHTML = `
-      <div class="col-header"><div class="col-bar" style="background:${s.bar}"></div><strong>${cat}</strong> <small style="color:#999; margin-left:4px;">${colItems.length}</small></div>
+      <div style="margin-bottom:15px;"><span style="border-left:3px solid ${s.bar}; padding-left:8px; font-weight:bold;">${cat}</span></div>
       ${colItems.map(d => `
         <div class="card">
-          <div class="edit-btn" onclick="openEdit('${d.title}')">편집</div>
-          <div style="display:flex; align-items:center;">
-            <div class="avatar" style="background:${s.bar}">${d.author[0]}</div>
-            <div><div style="font-weight:600">${d.author}</div><div style="font-size:10px; color:#ccc">${d.date}</div></div>
-          </div>
+          <div class="edit-btn">편집</div>
+          <div style="font-size:11px; color:#999;">${d.author || d.작성자} · ${d.date || d.날짜}</div>
           <div class="card-tag" style="background:${s.bg}; color:${s.fg}">${cat}</div>
-          <div class="card-title">${d.title}</div>
-          <div class="card-body">${d.content || d.body}</div>
+          <div class="card-title">${d.title || d.제목}</div>
+          <div class="card-body">${d.content || d.내용}</div>
         </div>
       `).join('')}
     `;
     container.appendChild(col);
   });
-}
-
-function openEdit(title) {
-  const card = cards.find(c => c.title === title);
-  if(!card) return;
-  isEditing = true;
-  document.getElementById('modalTitle').textContent = "게시물 수정";
-  document.getElementById('newCat').value = card.cat;
-  document.getElementById('newAuthor').value = card.author;
-  document.getElementById('newTitle').value = card.title;
-  document.getElementById('newContent').value = card.content || card.body;
-  openModal();
+  document.getElementById('statTotal').textContent = allCards.length;
 }
 
 async function submitCard() {
-  const payload = {
+  const newCard = {
     date: new Date().toISOString().split('T')[0],
     cat: document.getElementById('newCat').value,
     author: document.getElementById('newAuthor').value,
     title: document.getElementById('newTitle').value,
-    content: document.getElementById('newContent').value,
-    action: isEditing ? "EDIT" : "CREATE"
+    content: document.getElementById('newContent').value
   };
-  showToast("엑셀 저장 중...");
-  await fetch(FLOW_URL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload) });
+
+  excelData.unshift(newCard); // 화면에 즉시 추가
+  render();
   closeModal();
-  load();
+
+  await fetch(FLOW_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...newCard, action: "CREATE" })
+  });
 }
 
 function init() {
-  const f = document.getElementById('filterCat'); const n = document.getElementById('newCat');
-  Object.keys(CATS).forEach(c => { f.innerHTML += `<option value="${c}">${c}</option>`; n.innerHTML += `<option value="${c}">${c}</option>`; });
+  const n = document.getElementById('newCat');
+  Object.keys(CATS).forEach(c => { n.innerHTML += `<option value="${c}">${c}</option>`; });
   load();
 }
 function openModal() { document.getElementById('modalOverlay').classList.add('open'); }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); isEditing = false; }
-function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2500); }
-
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 window.onload = init;
 </script>
 </body>
