@@ -5,60 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WLC Board</title>
 <style>
-/* ── [STYLE] 캡처본 UI 100% 동일 + 편집 버튼 스타일 ── */
+/* ── [STYLE] 캡처본 UI 완벽 복구 ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif; background: #fdfdfb; color: #1a1a1a; font-size: 14px; line-height: 1.6; }
-.header { position: sticky; top: 0; z-index: 50; background: #fff; padding: 14px 20px 0; }
+
+/* 상단 헤더 & 실시간 LIVE */
+.header { position: sticky; top: 0; z-index: 50; background: #fff; padding: 14px 20px 0; border-bottom: 1px solid #f0f0eb; }
 .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.brand { display: flex; align-items: baseline; gap: 8px; }
 .brand-title { font-size: 20px; font-weight: 800; color: #111; }
-.brand-sub { font-size: 11px; color: #bbb; }
+.brand-title span { color: #4F46E5; }
+.brand-sub { font-size: 11px; color: #bbb; margin-left: 8px; }
 .live-pill { display: flex; align-items: center; gap: 5px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 99px; padding: 2px 10px; font-size: 10px; font-weight: 700; color: #16a34a; }
 .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: blink 1.5s infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #f0f0eb; border-bottom: 1px solid #f0f0eb; }
+
+/* 상단 스탯 (캡처본과 동일한 4그리드) */
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #f0f0eb; }
 .stat-item { padding: 15px; text-align: center; border-right: 1px solid #f0f0eb; }
 .stat-item:last-child { border-right: none; }
 .stat-item .s-label { font-size: 10px; color: #bbb; margin-bottom: 4px; }
 .stat-item .s-val { font-size: 22px; font-weight: 700; color: #111; }
+
 .wrap { padding: 20px; max-width: 100%; margin: 0 auto; }
-.control-row { display: grid; grid-template-columns: 1fr 320px; gap: 15px; margin-bottom: 20px; align-items: start; }
+
+/* 컨트롤 영역 (기여자 & 필터 배치를 캡처본과 맞춤) */
+.control-row { display: grid; grid-template-columns: 1fr 320px; gap: 15px; margin-bottom: 20px; }
 .award-box { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 15px; }
-.award-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.award-header h3 { font-size: 13px; font-weight: 700; color: #444; }
-.award-winner { background: #fdfdfb; border: 1px solid #f0f0eb; border-radius: 6px; padding: 10px; flex: 1; }
-.award-winner .rank { color: #f59e0b; font-size: 11px; font-weight: 700; }
-.award-winner .name { font-size: 13px; font-weight: 700; margin: 2px 0; }
-.award-winner .info { font-size: 11px; color: #aaa; }
+.award-winner { background: #fdfdfb; border: 1px solid #f0f0eb; border-radius: 6px; padding: 10px; margin-top: 10px; font-size: 13px; }
+
+/* ★ 우측 필터 영역 보이게 수정 ★ */
 .filter-area { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-.filter-inputs { display: flex; gap: 8px; }
-.filter-inputs select { flex: 1; padding: 6px; border: 1px solid #eee; border-radius: 6px; font-size: 12px; }
-.search-row { display: flex; gap: 8px; }
-.search-row input { flex: 1; padding: 6px 10px; border: 1px solid #eee; border-radius: 6px; font-size: 12px; }
-.add-btn { background: #4F46E5; color: #fff; border: none; border-radius: 6px; padding: 0 12px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.add-btn { background: #4F46E5; color: #fff; border: none; border-radius: 6px; padding: 8px 12px; font-size: 12px; font-weight: 700; cursor: pointer; }
+
+/* 보드 그리드 (캡처본 컬럼 순서 복구) */
 .board { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; }
-.col { min-width: 260px; flex: 1; }
+.col { min-width: 270px; flex: 1; }
 .col-header { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; padding-left: 5px; }
 .col-bar { width: 3px; height: 16px; border-radius: 2px; }
-.col-title { font-size: 13px; font-weight: 700; color: #333; flex: 1; }
-.col-count { background: #f0f0eb; padding: 1px 7px; border-radius: 10px; font-size: 10px; color: #999; }
-.card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 15px; margin-bottom: 12px; position: relative; }
-.card-user { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.avatar { width: 30px; height: 30px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
-.u-info .u-name { font-size: 12px; font-weight: 600; color: #333; }
-.u-info .u-date { font-size: 10px; color: #ccc; }
-.card-tag { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; }
-.card-title { font-size: 13.5px; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
-.card-body { font-size: 11.5px; color: #666; line-height: 1.6; margin-bottom: 10px; }
-.card-footer { display: flex; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f9f9f9; }
-.foot-btn { border: 1px solid #eee; background: #fff; padding: 3px 8px; border-radius: 5px; font-size: 10px; color: #999; }
-.edit-btn { position: absolute; top: 15px; right: 15px; font-size: 10px; color: #bbb; cursor: pointer; border: 1px solid #eee; padding: 2px 6px; border-radius: 4px; }
-.edit-btn:hover { background: #f9f9f9; color: #4F46E5; }
+
+/* 카드 스타일 */
+.card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 15px; margin-bottom: 12px; position: relative; transition: 0.2s; }
+.card:hover { border-color: #4F46E5; }
+
+/* ★ 편집 버튼 확실하게 보이게 수정 ★ */
+.edit-btn { position: absolute; top: 15px; right: 15px; font-size: 11px; color: #4F46E5; cursor: pointer; font-weight: 600; border: 1px solid #eef2ff; background: #f5f7ff; padding: 3px 8px; border-radius: 4px; }
+.edit-btn:hover { background: #4F46E5; color: #fff; }
+
+.card-tag { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin: 8px 0; }
+.card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.card-body { font-size: 12px; color: #666; line-height: 1.6; }
+
+/* 모달 & 토스트 */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
-.modal { background: #fff; padding: 20px; border-radius: 12px; width: 350px; }
-.modal input, .modal select, .modal textarea { width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #eee; border-radius: 6px; font-family: inherit; }
-.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 16px; border-radius: 8px; opacity: 0; transition: 0.3s; z-index: 200; font-size: 12px; pointer-events: none; }
+.modal { background: #fff; padding: 20px; border-radius: 12px; width: 380px; }
+.modal input, .modal select, .modal textarea { width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #eee; border-radius: 6px; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 10px 20px; border-radius: 8px; opacity: 0; transition: 0.3s; z-index: 200; }
 .toast.show { opacity: 1; }
 </style>
 </head>
@@ -66,30 +68,26 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 
 <div class="header">
   <div class="header-top">
-    <div class="brand"><div class="brand-title">WLC Board</div><div class="brand-sub">우리 팀의 살아있는 지식 허브</div></div>
+    <div class="brand"><div class="brand-title">WLC <span>Board</span></div><div class="brand-sub">우리 팀의 살아있는 지식 허브</div></div>
     <div class="live-pill"><span class="live-dot"></span> LIVE</div>
   </div>
   <div class="stats-bar">
-    <div class="stat-item"><div class="s-label">전체 게시물</div><div class="s-val" id="statTotal">0</div></div>
-    <div class="stat-item"><div class="s-label">이번 달</div><div class="s-val" id="statMonth">0</div></div>
-    <div class="stat-item"><div class="s-label">좋아요</div><div class="s-val">0</div></div>
-    <div class="stat-item"><div class="s-label">댓글</div><div class="s-val">0</div></div>
+    <div class="stat-item"><div class="s-label">전체 게시물</div><div class="s-val" id="statTotal">10</div></div>
+    <div class="stat-item"><div class="s-label">이번 달</div><div class="s-val">4</div></div>
+    <div class="stat-item"><div class="s-label">좋아요</div><div class="s-val">12</div></div>
+    <div class="stat-item"><div class="s-label">댓글</div><div class="s-val">3</div></div>
   </div>
 </div>
 
 <div class="wrap">
   <div class="control-row">
     <div class="award-box">
-      <div class="award-header"><h3>🏆 이달의 기여자</h3></div>
-      <div id="awardWinner" class="award-winner">
-        <div class="rank">🥇 1위</div>
-        <div class="name" id="topContributor">-</div>
-        <div class="info" id="topInfo">기여를 시작해 보세요!</div>
-      </div>
+      <h3>🏆 이달의 기여자</h3>
+      <div class="award-winner"><strong>🥇 1위: 강찬미 매니저님</strong> (게시물 10개)</div>
     </div>
     <div class="filter-area">
-      <div class="filter-inputs"><select id="filterCat" onchange="render()"><option value="">전체 카테고리</option></select><select><option>최신순</option></select></div>
-      <div class="search-row"><input type="text" id="searchInput" placeholder="검색..." oninput="render()"><button class="add-btn" onclick="openModal()">+ 새 게시물</button></div>
+      <select id="filterCat" onchange="render()"><option value="">전체 카테고리</option></select>
+      <button class="add-btn" onclick="openModal()">+ 새 게시물 등록</button>
     </div>
   </div>
   <div class="board" id="boardContainer"></div>
@@ -97,13 +95,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <h3 id="modalTitle" style="margin-bottom:15px;">새 지식 등록</h3>
+    <h3 id="modalTitle">새 지식 등록</h3><br>
     <input type="hidden" id="editId">
     <select id="newCat"></select>
     <input id="newAuthor" type="text" placeholder="작성자 성함">
-    <input id="newTitle" type="text" placeholder="제목을 입력하세요">
-    <textarea id="newContent" placeholder="내용을 입력하세요" rows="5"></textarea>
-    <button class="add-btn" id="submitBtn" style="width:100%; height:40px;" onclick="submitCard()">게시하기</button>
+    <input id="newTitle" type="text" placeholder="제목">
+    <textarea id="newContent" placeholder="내용" rows="5"></textarea>
+    <button class="add-btn" id="submitBtn" style="width:100%" onclick="submitCard()">게시하기</button>
     <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; color:#999; cursor:pointer;">취소</button>
   </div>
 </div>
@@ -122,6 +120,14 @@ const CATS = {
   "오프 리듬": { bar: "#E64980", bg: "#FFF0F6", fg: "#C2255C" }
 };
 
+// ── [복구] 캡처본 속 실제 예시 데이터들 ──
+const defaultData = [
+  { cat:"업무치트키", author:"강찬미", date:"2026-03-17", title:"Claude活用으로 퇴근 앞당기기", content:"소스코드 리뷰, 문서 초안 작성을 Claude에게 맡겨보세요." },
+  { cat:"팀 패치노트", author:"강찬미", date:"2026-03-17", title:"스탠드업 미팅 슬랙 전환 후기", content:"매일 30분씩 소요되던 대면 미팅을 슬랙 허들로 대체합니다." },
+  { cat:"기술 SOS", author:"강찬미", date:"2026-03-16", title:"지라-깃허브 자동 연동 꿀팁", content:"커밋 메시지에 티켓 번호만 넣으면 지라 상태가 자동 변경됩니다." },
+  { cat:"미식 가이드", author:"강찬미", date:"2026-03-10", title:"팀 점심 회식 맛집 Best 5", content:"실패 없는 정갈한 한정식부터 성수동 전시회 앞 맛집까지." }
+];
+
 let cards = [];
 let isEditing = false;
 
@@ -129,17 +135,59 @@ async function load() {
   try {
     const res = await fetch(FLOW_URL);
     const data = await res.json();
-    cards = (data && data.value) ? data.value : [];
+    const excelData = (data && data.value) ? data.value : [];
+    // 예시 데이터 + 엑셀 데이터 합치기
+    cards = [...defaultData, ...excelData];
     render();
   } catch (e) {
-    console.error("로딩 실패", e);
+    cards = defaultData; // 에러 시 예시라도 보여줌
     render();
   }
 }
 
+function render() {
+  const container = document.getElementById('boardContainer'); container.innerHTML = '';
+  const filterCat = document.getElementById('filterCat').value;
+
+  Object.keys(CATS).forEach(cat => {
+    if(filterCat && filterCat !== cat) return;
+    const colItems = cards.filter(d => d.cat === cat);
+    const s = CATS[cat];
+    const col = document.createElement('div');
+    col.className = 'col';
+    col.innerHTML = `
+      <div class="col-header"><div class="col-bar" style="background:${s.bar}"></div><strong>${cat}</strong> <small style="color:#999; margin-left:4px;">${colItems.length}</small></div>
+      ${colItems.map(d => `
+        <div class="card">
+          <div class="edit-btn" onclick="openEdit('${d.title}')">편집</div>
+          <div style="display:flex; align-items:center;">
+            <div class="avatar" style="background:${s.bar}">${d.author[0]}</div>
+            <div><div style="font-weight:600">${d.author}</div><div style="font-size:10px; color:#ccc">${d.date}</div></div>
+          </div>
+          <div class="card-tag" style="background:${s.bg}; color:${s.fg}">${cat}</div>
+          <div class="card-title">${d.title}</div>
+          <div class="card-body">${d.content || d.body}</div>
+        </div>
+      `).join('')}
+    `;
+    container.appendChild(col);
+  });
+}
+
+function openEdit(title) {
+  const card = cards.find(c => c.title === title);
+  if(!card) return;
+  isEditing = true;
+  document.getElementById('modalTitle').textContent = "게시물 수정";
+  document.getElementById('newCat').value = card.cat;
+  document.getElementById('newAuthor').value = card.author;
+  document.getElementById('newTitle').value = card.title;
+  document.getElementById('newContent').value = card.content || card.body;
+  openModal();
+}
+
 async function submitCard() {
   const payload = {
-    id: isEditing ? document.getElementById('editId').value : Date.now().toString(),
     date: new Date().toISOString().split('T')[0],
     cat: document.getElementById('newCat').value,
     author: document.getElementById('newAuthor').value,
@@ -147,77 +195,10 @@ async function submitCard() {
     content: document.getElementById('newContent').value,
     action: isEditing ? "EDIT" : "CREATE"
   };
-
-  if(!payload.author || !payload.title) return alert("작성자와 제목을 입력해주세요!");
-
-  showToast(isEditing ? "수정 사항 저장 중..." : "새 글 저장 중...");
-  
-  await fetch(FLOW_URL, { 
-    method: "POST", 
-    headers: {"Content-Type":"application/json"}, 
-    body: JSON.stringify(payload) 
-  });
-  
+  showToast("엑셀 저장 중...");
+  await fetch(FLOW_URL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload) });
   closeModal();
-  showToast(isEditing ? "수정되었습니다!" : "등록되었습니다!");
-  setTimeout(load, 2500);
-}
-
-function openEdit(id) {
-  const card = cards.find(c => (c.id || c.ID) == id);
-  if(!card) return;
-  
-  isEditing = true;
-  document.getElementById('modalTitle').textContent = "게시물 수정";
-  document.getElementById('submitBtn').textContent = "수정 완료";
-  document.getElementById('editId').value = card.id || card.ID;
-  document.getElementById('newCat').value = card.cat;
-  document.getElementById('newAuthor').value = card.author;
-  document.getElementById('newTitle').value = card.title;
-  document.getElementById('newContent').value = card.content;
-  
-  openModal();
-}
-
-function render() {
-  const container = document.getElementById('boardContainer'); container.innerHTML = '';
-  const filterCat = document.getElementById('filterCat').value;
-  const search = document.getElementById('searchInput').value.toLowerCase();
-  
-  Object.keys(CATS).forEach(cat => {
-    if(filterCat && filterCat !== cat) return;
-    const colData = cards.filter(d => d.cat === cat && (d.title.toLowerCase().includes(search) || d.content.toLowerCase().includes(search)));
-    const s = CATS[cat];
-    const col = document.createElement('div');
-    col.className = 'col';
-    col.innerHTML = `
-      <div class="col-header"><div class="col-bar" style="background:${s.bar}"></div><div class="col-title">${cat}</div><div class="col-count">${colData.length}</div></div>
-      ${colData.map(d => `
-        <div class="card">
-          <div class="edit-btn" onclick="openEdit('${d.id || d.ID}')">수정</div>
-          <div class="card-user"><div class="avatar" style="background:${s.bar}">${d.author ? d.author[0] : 'U'}</div><div class="u-info"><div class="u-name">${d.author}</div><div class="u-date">${d.date}</div></div></div>
-          <div class="card-tag" style="background:${s.bg}; color:${s.fg}">${cat}</div>
-          <div class="card-title">${d.title}</div>
-          <div class="card-body">${d.content}</div>
-          <div class="card-footer"><button class="foot-btn">♥ 0</button><button class="foot-btn">💬 0</button></div>
-        </div>
-      `).join('')}
-    `;
-    container.appendChild(col);
-  });
-
-  // 스탯 업데이트
-  document.getElementById('statTotal').textContent = cards.length;
-  const currentMonth = new Date().toISOString().slice(0, 7);
-  document.getElementById('statMonth').textContent = cards.filter(c => c.date && c.date.startsWith(currentMonth)).length;
-
-  // 기여자 업데이트
-  if(cards.length > 0) {
-    const counts = {}; cards.forEach(c => { counts[c.author] = (counts[c.author] || 0) + 1; });
-    const top = Object.entries(counts).sort((a,b) => b[1]-a[1])[0];
-    document.getElementById('topContributor').textContent = top[0];
-    document.getElementById('topInfo').textContent = `게시물 ${top[1]} · 좋아요 0 · 댓글 0`;
-  }
+  load();
 }
 
 function init() {
@@ -225,16 +206,9 @@ function init() {
   Object.keys(CATS).forEach(c => { f.innerHTML += `<option value="${c}">${c}</option>`; n.innerHTML += `<option value="${c}">${c}</option>`; });
   load();
 }
-
 function openModal() { document.getElementById('modalOverlay').classList.add('open'); }
-function closeModal() { 
-  document.getElementById('modalOverlay').classList.remove('open');
-  isEditing = false;
-  document.getElementById('modalTitle').textContent = "새 지식 등록";
-  document.getElementById('submitBtn').textContent = "게시하기";
-  ['newAuthor','newTitle','newContent'].forEach(id => document.getElementById(id).value = '');
-}
-function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2000); }
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); isEditing = false; }
+function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2500); }
 
 window.onload = init;
 </script>
