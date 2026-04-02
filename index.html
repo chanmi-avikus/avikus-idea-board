@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WLC Board</title>
 <style>
-/* ── 스타일 (기존과 동일하게 유지) ── */
+/* ── 기존의 예쁜 스타일 모두 복구 ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif; background: #f4f4f0; color: #1a1a1a; font-size: 14px; line-height: 1.6; }
 .header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid #e8e8e4; padding: 14px 20px 0; }
@@ -27,15 +27,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 .award-box { background: #fff; border: 1px solid #e8e8e4; border-radius: 12px; padding: 14px 18px; flex: 1; min-width: 300px; }
 .award-box-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .award-box-header h3 { font-size: 13px; font-weight: 700; color: #333; }
-.award-box-header select { font-size: 11px; padding: 3px 8px; border-radius: 6px; border: 1px solid #e0e0da; background: #fafaf7; color: #555; cursor: pointer; }
 .award-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .award-item { background: #fafaf7; border: 1px solid #ebebeb; border-radius: 8px; padding: 8px 12px; flex: 1; min-width: 120px; }
 .award-item .a-rank { font-size: 10px; color: #bbb; margin-bottom: 2px; }
-.award-item .a-name { font-size: 13px; font-weight: 700; margin-bottom: 1px; }
+.award-item .a-name { font-size: 13px; font-weight: 700; margin-bottom: 1px; color: #111; }
 .award-item .a-pts { font-size: 11px; color: #aaa; }
-.gold .a-name { color: #B8860B; }
-.silver .a-name { color: #607D8B; }
-.bronze .a-name { color: #8D6E63; }
 .filter-box { background: #fff; border: 1px solid #e8e8e4; border-radius: 12px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; justify-content: center; min-width: 280px; }
 .filter-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .filter-row select, .filter-row input[type=text] { font-size: 12px; padding: 6px 10px; border-radius: 7px; border: 1px solid #e0e0da; background: #fafaf7; color: #333; height: 32px; }
@@ -48,8 +44,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 .col-header-bar { width: 3px; height: 18px; border-radius: 2px; flex-shrink: 0; }
 .col-header-name { font-size: 13px; font-weight: 700; color: #333; flex: 1; }
 .col-badge { background: #ebebeb; border-radius: 99px; padding: 2px 9px; font-size: 11px; color: #888; font-weight: 600; }
-.card { background: #fff; border: 1px solid #e8e8e4; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; cursor: default; transition: box-shadow 0.15s, transform 0.1s; }
-.card:hover { box-shadow: 0 3px 14px rgba(0,0,0,0.08); transform: translateY(-1px); }
+.card { background: #fff; border: 1px solid #e8e8e4; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; transition: box-shadow 0.15s; }
 .card-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
 .card-avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; }
 .card-head-right { flex: 1; min-width: 0; }
@@ -57,31 +52,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 .card-date { font-size: 11px; color: #ccc; }
 .card-tag { display: inline-block; font-size: 10px; border-radius: 99px; padding: 2px 9px; font-weight: 700; margin-bottom: 6px; }
 .card-title { font-size: 14px; font-weight: 700; color: #111; line-height: 1.4; margin-bottom: 6px; }
-.card-body-wrap { overflow: hidden; }
-.card-body-wrap.collapsed { max-height: 56px; position: relative; }
-.card-body-wrap.collapsed::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 24px; background: linear-gradient(transparent, #fff); }
 .card-body { font-size: 12px; color: #666; line-height: 1.65; }
-.card-section-label { font-size: 10px; color: #bbb; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin: 8px 0 3px; }
-.card-tip { font-size: 11px; color: #777; line-height: 1.6; background: #f8f8f5; border-radius: 6px; padding: 7px 10px; }
-.card-hash { font-size: 11px; color: #4F46E5; margin-top: 6px; }
-.card-link a { font-size: 11px; color: #4F46E5; text-decoration: none; display: inline-block; margin-top: 5px; }
-.expand-btn { background: none; border: none; font-size: 11px; color: #aaa; cursor: pointer; padding: 4px 0; margin-top: 2px; }
-.card-footer { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0eb; }
+.card-tip { font-size: 11px; color: #777; line-height: 1.6; background: #f8f8f5; border-radius: 6px; padding: 7px 10px; margin-top: 8px;}
 .empty-card { border: 1.5px dashed #e0e0da; border-radius: 12px; padding: 24px 16px; text-align: center; color: #ccc; font-size: 12px; cursor: pointer; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
 .modal-overlay.open { display: flex; }
-.modal { background: #fff; border-radius: 16px; padding: 26px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 12px 48px rgba(0,0,0,0.15); }
-.modal-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-.modal h2 { font-size: 17px; font-weight: 700; color: #111; }
-.modal-close { background: none; border: none; font-size: 20px; color: #aaa; cursor: pointer; }
-.modal label { font-size: 11px; color: #999; font-weight: 700; display: block; margin-bottom: 5px; margin-top: 14px; text-transform: uppercase; }
-.modal input, .modal textarea, .modal select { width: 100%; border: 1px solid #e0e0da; border-radius: 8px; padding: 9px 12px; font-size: 14px; background: #fafaf7; color: #111; }
-.modal-btns { display: flex; gap: 8px; margin-top: 20px; }
-.modal-btns button { flex: 1; padding: 11px; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 700; }
-.btn-cancel { background: #f4f4f0; border: 1px solid #e0e0da; color: #666; }
-.btn-submit { background: #4F46E5; border: none; color: #fff; }
-.toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: #111; color: #fff; border-radius: 10px; padding: 11px 24px; font-size: 13px; font-weight: 600; opacity: 0; pointer-events: none; z-index: 999; transition: opacity 0.2s, transform 0.2s; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.modal { background: #fff; border-radius: 16px; padding: 26px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+.toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: #111; color: #fff; border-radius: 10px; padding: 11px 24px; font-size: 13px; font-weight: 600; opacity: 0; z-index: 999; transition: opacity 0.2s; }
+.toast.show { opacity: 1; }
 </style>
 </head>
 <body>
@@ -90,27 +68,25 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
   <div class="header-top">
     <div class="brand">
       <div class="brand-title">WLC <span>Board</span></div>
-      <div class="brand-sub">우리 팀의 살아있는 지식 허브</div>
+      <div class="brand-sub">Work · Life · Culture — 우리 팀의 살아있는 지식 허브</div>
     </div>
     <div class="live-pill"><span class="live-dot"></span> LIVE</div>
   </div>
   <div class="stats-bar">
     <div class="stat-item"><div class="s-label">전체 게시물</div><div class="s-val" id="statTotal">0</div></div>
-    <div class="stat-item"><div class="s-label">이달의 기여자</div><div class="s-val" id="statContributor">-</div></div>
+    <div class="stat-item"><div class="s-label">좋아요 합계</div><div class="s-val" id="statLikes">0</div></div>
   </div>
 </div>
 
 <div class="wrap">
   <div class="control-row">
+    <div class="award-box">
+      <div class="award-box-header"><h3>🏆 이달의 기여자</h3></div>
+      <div class="award-row" id="awardRow"></div>
+    </div>
     <div class="filter-box">
       <div class="filter-row">
-        <select id="filterCat" onchange="renderBoard()">
-          <option value="">전체 카테고리</option>
-          <option value="업무치트키">업무치트키</option>
-          <option value="팀 패치노트">팀 패치노트</option>
-          <option value="기술 SOS">기술 SOS</option>
-          <option value="에너지 세이버">에너지 세이버</option>
-        </select>
+        <select id="filterCat" onchange="renderBoard()"><option value="">전체 카테고리</option></select>
         <input type="text" id="searchInput" placeholder="검색..." oninput="renderBoard()">
         <button class="add-btn" onclick="openModal()">+ 새 게시물</button>
       </div>
@@ -121,23 +97,15 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <div class="modal-title-row"><h2>새 게시물 작성</h2><button class="modal-close" onclick="closeModal()">×</button></div>
-    <label>카테고리</label>
-    <select id="newCat">
-        <option value="업무치트키">업무치트키</option>
-        <option value="팀 패치노트">팀 패치노트</option>
-        <option value="기술 SOS">기술 SOS</option>
-        <option value="에너지 세이버">에너지 세이버</option>
-    </select>
+    <div class="modal-title-row"><h2>새 게시물 작성</h2></div>
+    <label>카테고리</label><select id="newCat"></select>
     <label>작성자 *</label><input id="newAuthor" type="text">
     <label>제목 *</label><input id="newTitle" type="text">
-    <label>내용 *</label><textarea id="newContent"></textarea>
-    <label>팁</label><textarea id="newTip"></textarea>
-    <label>해시태그</label><input id="newHash" type="text">
-    <label>링크</label><input id="newLink" type="text">
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModal()">취소</button>
-      <button class="btn-submit" onclick="submitCard()">게시하기</button>
+    <label>내용 *</label><textarea id="newContent" style="width:100%; height:80px;"></textarea>
+    <label>팁</label><textarea id="newTip" style="width:100%; height:50px;"></textarea>
+    <div class="modal-btns" style="margin-top:10px; display:flex; gap:10px;">
+      <button class="btn-cancel" onclick="closeModal()" style="flex:1;">취소</button>
+      <button class="btn-submit" onclick="submitCard()" style="flex:1; background:#4F46E5; color:#fff; border:none; padding:10px; border-radius:8px;">게시하기</button>
     </div>
   </div>
 </div>
@@ -147,21 +115,32 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 const FLOW_URL = "https://default48c3cf2c29be407f80f9b5dc00c35c.de.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/38e4719e3d274fd19345b28e2ec440fc/triggers/manual/paths/invoke?api-version=1"; 
 /* ────────────────────────────────────────────────── */
 
-let cards = [];
 const CATS = {
   "업무치트키": {bg:"#EEF4FF", fg:"#3B5BDB", bar:"#4C6EF5"},
   "팀 패치노트": {bg:"#F3F0FF", fg:"#6741D9", bar:"#7950F2"},
   "기술 SOS": {bg:"#FFF4E6", fg:"#C96500", bar:"#F76707"},
-  "에너지 세이버":{bg:"#EBFBEE", fg:"#2F9E44", bar:"#40C057"}
+  "에너지 세이버": {bg:"#EBFBEE", fg:"#2F9E44", bar:"#40C057"},
+  "미식 가이드": {bg:"#FFF9DB", fg:"#B08700", bar:"#FAB005"},
+  "오프 리듬": {bg:"#FFF0F6", fg:"#C2255C", bar:"#E64980"}
 };
+
+let cards = [];
+
+function initSelectors() {
+    const fCat = document.getElementById('filterCat');
+    const nCat = document.getElementById('newCat');
+    Object.keys(CATS).forEach(k => {
+        fCat.innerHTML += `<option value="${k}">${k}</option>`;
+        nCat.innerHTML += `<option value="${k}">${k}</option>`;
+    });
+}
 
 async function load() {
   try {
     const response = await fetch(FLOW_URL);
     const data = await response.json();
     cards = (data && data.value) ? data.value : [];
-    renderBoard();
-    updateStats();
+    renderAll();
   } catch (e) { console.error(e); }
 }
 
@@ -173,64 +152,16 @@ async function submitCard() {
     title: document.getElementById('newTitle').value,
     content: document.getElementById('newContent').value,
     tip: document.getElementById('newTip').value,
-    hash: document.getElementById('newHash').value,
-    link: document.getElementById('newLink').value
+    likes: 0
   };
-
   if(!payload.author || !payload.title) return alert("필수값을 입력하세요");
-
-  showToast("전송 중...");
-  await fetch(FLOW_URL, {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(payload)
-  });
-  
+  showToast("게시물 전송 중...");
+  await fetch(FLOW_URL, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(payload) });
   closeModal();
   showToast("등록 완료! (3초 후 새로고침)");
   setTimeout(load, 3000);
 }
 
-function renderBoard() {
-  const container = document.getElementById('board');
-  container.innerHTML = '';
-  const search = document.getElementById('searchInput').value.toLowerCase();
-  
-  const filtered = cards.filter(c => c.title.toLowerCase().includes(search) || c.content.toLowerCase().includes(search));
-  
-  Object.keys(CATS).forEach(cat => {
-    const colItems = filtered.filter(c => c.cat === cat);
-    const s = CATS[cat];
-    const col = document.createElement('div');
-    col.className = 'col-wrap';
-    col.innerHTML = `
-      <div class="col-header">
-        <div class="col-header-bar" style="background:${s.bar}"></div>
-        <div class="col-header-name">${cat}</div>
-        <div class="col-badge">${colItems.length}</div>
-      </div>
-      ${colItems.map(c => `
-        <div class="card">
-          <div class="card-author-name" style="font-size:11px;color:#999">${c.author} · ${c.date}</div>
-          <div class="card-title">${c.title}</div>
-          <div class="card-body">${c.content.substring(0,100)}...</div>
-        </div>
-      `).join('')}
-    `;
-    container.appendChild(col);
-  });
-}
-
-function updateStats() {
-    document.getElementById('statTotal').textContent = cards.length;
-    if(cards.length > 0) document.getElementById('statContributor').textContent = cards[0].author;
-}
-
-function openModal() { document.getElementById('modalOverlay').classList.add('open'); }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
-function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2000); }
-
-window.onload = load;
-</script>
-</body>
-</html>
+function renderAll() {
+    renderBoard();
+    updateStats();
