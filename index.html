@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WLC Board</title>
 <style>
-/* ── [STYLE] 캡처본 UI와 100% 동일 ── */
+/* ── [STYLE] 캡처본 UI 100% 동일 + 편집 버튼 스타일 ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif; background: #fdfdfb; color: #1a1a1a; font-size: 14px; line-height: 1.6; }
 .header { position: sticky; top: 0; z-index: 50; background: #fff; padding: 14px 20px 0; }
@@ -42,7 +42,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 .col-bar { width: 3px; height: 16px; border-radius: 2px; }
 .col-title { font-size: 13px; font-weight: 700; color: #333; flex: 1; }
 .col-count { background: #f0f0eb; padding: 1px 7px; border-radius: 10px; font-size: 10px; color: #999; }
-.card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 15px; margin-bottom: 12px; }
+.card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 15px; margin-bottom: 12px; position: relative; }
 .card-user { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .avatar { width: 30px; height: 30px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
 .u-info .u-name { font-size: 12px; font-weight: 600; color: #333; }
@@ -52,11 +52,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 .card-body { font-size: 11.5px; color: #666; line-height: 1.6; margin-bottom: 10px; }
 .card-footer { display: flex; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f9f9f9; }
 .foot-btn { border: 1px solid #eee; background: #fff; padding: 3px 8px; border-radius: 5px; font-size: 10px; color: #999; }
+.edit-btn { position: absolute; top: 15px; right: 15px; font-size: 10px; color: #bbb; cursor: pointer; border: 1px solid #eee; padding: 2px 6px; border-radius: 4px; }
+.edit-btn:hover { background: #f9f9f9; color: #4F46E5; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
 .modal { background: #fff; padding: 20px; border-radius: 12px; width: 350px; }
-.modal input, .modal select, .modal textarea { width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #eee; border-radius: 6px; }
-.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 16px; border-radius: 8px; opacity: 0; transition: 0.3s; z-index: 200; font-size: 12px; }
+.modal input, .modal select, .modal textarea { width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #eee; border-radius: 6px; font-family: inherit; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 16px; border-radius: 8px; opacity: 0; transition: 0.3s; z-index: 200; font-size: 12px; pointer-events: none; }
 .toast.show { opacity: 1; }
 </style>
 </head>
@@ -68,10 +70,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
     <div class="live-pill"><span class="live-dot"></span> LIVE</div>
   </div>
   <div class="stats-bar">
-    <div class="stat-item"><div class="s-label">전체 게시물</div><div class="s-val" id="statTotal">10</div></div>
-    <div class="stat-item"><div class="s-label">이번 달</div><div class="s-val">1</div></div>
-    <div class="stat-item"><div class="s-label">좋아요</div><div class="s-val">1</div></div>
-    <div class="stat-item"><div class="s-label">댓글</div><div class="s-val">1</div></div>
+    <div class="stat-item"><div class="s-label">전체 게시물</div><div class="s-val" id="statTotal">0</div></div>
+    <div class="stat-item"><div class="s-label">이번 달</div><div class="s-val" id="statMonth">0</div></div>
+    <div class="stat-item"><div class="s-label">좋아요</div><div class="s-val">0</div></div>
+    <div class="stat-item"><div class="s-label">댓글</div><div class="s-val">0</div></div>
   </div>
 </div>
 
@@ -81,13 +83,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
       <div class="award-header"><h3>🏆 이달의 기여자</h3></div>
       <div id="awardWinner" class="award-winner">
         <div class="rank">🥇 1위</div>
-        <div class="name">Chanmi Kang (강찬미)</div>
-        <div class="info">게시물 10 · 좋아요 1 · 댓글 1</div>
+        <div class="name" id="topContributor">-</div>
+        <div class="info" id="topInfo">기여를 시작해 보세요!</div>
       </div>
     </div>
     <div class="filter-area">
       <div class="filter-inputs"><select id="filterCat" onchange="render()"><option value="">전체 카테고리</option></select><select><option>최신순</option></select></div>
-      <div class="search-row"><input type="text" placeholder="검색..."><button class="add-btn" onclick="openModal()">+ 새 게시물</button></div>
+      <div class="search-row"><input type="text" id="searchInput" placeholder="검색..." oninput="render()"><button class="add-btn" onclick="openModal()">+ 새 게시물</button></div>
     </div>
   </div>
   <div class="board" id="boardContainer"></div>
@@ -95,12 +97,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <h3 style="margin-bottom:15px;">새 지식 등록</h3>
+    <h3 id="modalTitle" style="margin-bottom:15px;">새 지식 등록</h3>
+    <input type="hidden" id="editId">
     <select id="newCat"></select>
     <input id="newAuthor" type="text" placeholder="작성자 성함">
     <input id="newTitle" type="text" placeholder="제목을 입력하세요">
-    <textarea id="newContent" placeholder="내용을 입력하세요" rows="4"></textarea>
-    <button class="add-btn" style="width:100%; height:40px;" onclick="submitCard()">게시하기</button>
+    <textarea id="newContent" placeholder="내용을 입력하세요" rows="5"></textarea>
+    <button class="add-btn" id="submitBtn" style="width:100%; height:40px;" onclick="submitCard()">게시하기</button>
     <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; color:#999; cursor:pointer;">취소</button>
   </div>
 </div>
@@ -119,40 +122,36 @@ const CATS = {
   "오프 리듬": { bar: "#E64980", bg: "#FFF0F6", fg: "#C2255C" }
 };
 
-let defaultData = [
-  { cat: "업무치트키", author: "강찬미", date: "2026-03-17", title: "Claude로 코드 품질 높이기", body: "개발 파트너로 Claude를 활용하는 꿀팁입니다." },
-  { cat: "팀 패치노트", author: "강찬미", date: "2026-03-17", title: "스탠드업 미팅 슬랙 전환 후기", body: "매일 아침 미팅 시간을 30분 단축했습니다." },
-  { cat: "기술 SOS", author: "강찬미", date: "2026-03-16", title: "Ubuntu 드라이버 충돌 해결", body: "특정 버전 라이브러리 충돌 시 대응 방법입니다." },
-  { cat: "미식 가이드", author: "강찬미", date: "2026-03-10", title: "오피스 근처 숨은 맛집 리스트", body: "팀 점심으로 가기 좋은 곳들 정리했어요." }
-];
-
 let cards = [];
+let isEditing = false;
 
 async function load() {
   try {
     const res = await fetch(FLOW_URL);
     const data = await res.json();
-    const excelData = (data && data.value) ? data.value : [];
-    // 예시 데이터와 엑셀 데이터를 합쳐서 보여줍니다.
-    cards = [...defaultData, ...excelData];
+    cards = (data && data.value) ? data.value : [];
     render();
   } catch (e) {
-    cards = defaultData; // 엑셀 로딩 실패 시 예시라도 보여줌
+    console.error("로딩 실패", e);
     render();
   }
 }
 
 async function submitCard() {
   const payload = {
+    id: isEditing ? document.getElementById('editId').value : Date.now().toString(),
     date: new Date().toISOString().split('T')[0],
     cat: document.getElementById('newCat').value,
     author: document.getElementById('newAuthor').value,
     title: document.getElementById('newTitle').value,
-    content: document.getElementById('newContent').value
+    content: document.getElementById('newContent').value,
+    action: isEditing ? "EDIT" : "CREATE"
   };
-  if(!payload.author || !payload.title) return alert("필수 정보를 입력해주세요!");
+
+  if(!payload.author || !payload.title) return alert("작성자와 제목을 입력해주세요!");
+
+  showToast(isEditing ? "수정 사항 저장 중..." : "새 글 저장 중...");
   
-  showToast("엑셀에 저장 중...");
   await fetch(FLOW_URL, { 
     method: "POST", 
     headers: {"Content-Type":"application/json"}, 
@@ -160,17 +159,34 @@ async function submitCard() {
   });
   
   closeModal();
-  showToast("등록 완료! 3초 후 엑셀 데이터를 가져옵니다.");
-  setTimeout(load, 3000);
+  showToast(isEditing ? "수정되었습니다!" : "등록되었습니다!");
+  setTimeout(load, 2500);
+}
+
+function openEdit(id) {
+  const card = cards.find(c => (c.id || c.ID) == id);
+  if(!card) return;
+  
+  isEditing = true;
+  document.getElementById('modalTitle').textContent = "게시물 수정";
+  document.getElementById('submitBtn').textContent = "수정 완료";
+  document.getElementById('editId').value = card.id || card.ID;
+  document.getElementById('newCat').value = card.cat;
+  document.getElementById('newAuthor').value = card.author;
+  document.getElementById('newTitle').value = card.title;
+  document.getElementById('newContent').value = card.content;
+  
+  openModal();
 }
 
 function render() {
   const container = document.getElementById('boardContainer'); container.innerHTML = '';
   const filterCat = document.getElementById('filterCat').value;
+  const search = document.getElementById('searchInput').value.toLowerCase();
   
   Object.keys(CATS).forEach(cat => {
     if(filterCat && filterCat !== cat) return;
-    const colData = cards.filter(d => d.cat === cat);
+    const colData = cards.filter(d => d.cat === cat && (d.title.toLowerCase().includes(search) || d.content.toLowerCase().includes(search)));
     const s = CATS[cat];
     const col = document.createElement('div');
     col.className = 'col';
@@ -178,17 +194,30 @@ function render() {
       <div class="col-header"><div class="col-bar" style="background:${s.bar}"></div><div class="col-title">${cat}</div><div class="col-count">${colData.length}</div></div>
       ${colData.map(d => `
         <div class="card">
-          <div class="card-user"><div class="avatar" style="background:${s.bar}">${d.author[0]}</div><div class="u-info"><div class="u-name">${d.author}</div><div class="u-date">${d.date}</div></div></div>
+          <div class="edit-btn" onclick="openEdit('${d.id || d.ID}')">수정</div>
+          <div class="card-user"><div class="avatar" style="background:${s.bar}">${d.author ? d.author[0] : 'U'}</div><div class="u-info"><div class="u-name">${d.author}</div><div class="u-date">${d.date}</div></div></div>
           <div class="card-tag" style="background:${s.bg}; color:${s.fg}">${cat}</div>
           <div class="card-title">${d.title}</div>
-          <div class="card-body">${d.content || d.body}</div>
+          <div class="card-body">${d.content}</div>
           <div class="card-footer"><button class="foot-btn">♥ 0</button><button class="foot-btn">💬 0</button></div>
         </div>
       `).join('')}
     `;
     container.appendChild(col);
   });
+
+  // 스탯 업데이트
   document.getElementById('statTotal').textContent = cards.length;
+  const currentMonth = new Date().toISOString().slice(0, 7);
+  document.getElementById('statMonth').textContent = cards.filter(c => c.date && c.date.startsWith(currentMonth)).length;
+
+  // 기여자 업데이트
+  if(cards.length > 0) {
+    const counts = {}; cards.forEach(c => { counts[c.author] = (counts[c.author] || 0) + 1; });
+    const top = Object.entries(counts).sort((a,b) => b[1]-a[1])[0];
+    document.getElementById('topContributor').textContent = top[0];
+    document.getElementById('topInfo').textContent = `게시물 ${top[1]} · 좋아요 0 · 댓글 0`;
+  }
 }
 
 function init() {
@@ -198,7 +227,13 @@ function init() {
 }
 
 function openModal() { document.getElementById('modalOverlay').classList.add('open'); }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function closeModal() { 
+  document.getElementById('modalOverlay').classList.remove('open');
+  isEditing = false;
+  document.getElementById('modalTitle').textContent = "새 지식 등록";
+  document.getElementById('submitBtn').textContent = "게시하기";
+  ['newAuthor','newTitle','newContent'].forEach(id => document.getElementById(id).value = '');
+}
 function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2000); }
 
 window.onload = init;
