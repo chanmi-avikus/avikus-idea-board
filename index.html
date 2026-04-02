@@ -5,60 +5,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WLC Board</title>
 <style>
-/* ── 기존의 예쁜 스타일 모두 복구 ── */
+/* ── [STYLE] 캡처본 UI와 100% 동일 ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif; background: #f4f4f0; color: #1a1a1a; font-size: 14px; line-height: 1.6; }
-.header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid #e8e8e4; padding: 14px 20px 0; }
-.header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
-.brand { display: flex; align-items: baseline; gap: 10px; }
-.brand-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: #111; }
-.brand-title span { color: #4F46E5; }
-.brand-sub { font-size: 12px; color: #aaa; letter-spacing: 0.2px; }
-.live-pill { display: flex; align-items: center; gap: 5px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 99px; padding: 3px 10px; font-size: 11px; font-weight: 600; color: #16a34a; }
-.live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; animation: blink 1.5s infinite; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif; background: #fdfdfb; color: #1a1a1a; font-size: 14px; line-height: 1.6; }
+.header { position: sticky; top: 0; z-index: 50; background: #fff; padding: 14px 20px 0; }
+.header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.brand { display: flex; align-items: baseline; gap: 8px; }
+.brand-title { font-size: 20px; font-weight: 800; color: #111; }
+.brand-sub { font-size: 11px; color: #bbb; }
+.live-pill { display: flex; align-items: center; gap: 5px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 99px; padding: 2px 10px; font-size: 10px; font-weight: 700; color: #16a34a; }
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: blink 1.5s infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.stats-bar { display: flex; gap: 0; border-top: 1px solid #f0f0eb; }
-.stat-item { flex: 1; padding: 10px 16px; text-align: center; border-right: 1px solid #f0f0eb; }
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #f0f0eb; border-bottom: 1px solid #f0f0eb; }
+.stat-item { padding: 15px; text-align: center; border-right: 1px solid #f0f0eb; }
 .stat-item:last-child { border-right: none; }
-.stat-item .s-label { font-size: 10px; color: #bbb; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 2px; }
-.stat-item .s-val { font-size: 18px; font-weight: 700; color: #111; }
-.wrap { padding: 16px 20px; max-width: 1800px; margin: 0 auto; }
-.control-row { display: flex; gap: 12px; align-items: stretch; margin-bottom: 16px; flex-wrap: wrap; }
-.award-box { background: #fff; border: 1px solid #e8e8e4; border-radius: 12px; padding: 14px 18px; flex: 1; min-width: 300px; }
-.award-box-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.award-box-header h3 { font-size: 13px; font-weight: 700; color: #333; }
-.award-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.award-item { background: #fafaf7; border: 1px solid #ebebeb; border-radius: 8px; padding: 8px 12px; flex: 1; min-width: 120px; }
-.award-item .a-rank { font-size: 10px; color: #bbb; margin-bottom: 2px; }
-.award-item .a-name { font-size: 13px; font-weight: 700; margin-bottom: 1px; color: #111; }
-.award-item .a-pts { font-size: 11px; color: #aaa; }
-.filter-box { background: #fff; border: 1px solid #e8e8e4; border-radius: 12px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; justify-content: center; min-width: 280px; }
-.filter-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.filter-row select, .filter-row input[type=text] { font-size: 12px; padding: 6px 10px; border-radius: 7px; border: 1px solid #e0e0da; background: #fafaf7; color: #333; height: 32px; }
-.filter-row input[type=text] { flex: 1; min-width: 140px; }
-.add-btn { background: #4F46E5; color: #fff; border: none; border-radius: 7px; padding: 0 16px; font-size: 12px; font-weight: 700; cursor: pointer; height: 32px; white-space: nowrap; transition: background 0.15s; letter-spacing: 0.2px; }
-.add-btn:hover { background: #4338CA; }
-.board { display: flex; flex-direction: row; gap: 12px; overflow-x: auto; align-items: flex-start; padding-bottom: 20px; }
-.col-wrap { min-width: 268px; flex: 0 0 268px; display: flex; flex-direction: column; }
-.col-header { display: flex; align-items: center; gap: 8px; padding: 0 4px; margin-bottom: 10px; }
-.col-header-bar { width: 3px; height: 18px; border-radius: 2px; flex-shrink: 0; }
-.col-header-name { font-size: 13px; font-weight: 700; color: #333; flex: 1; }
-.col-badge { background: #ebebeb; border-radius: 99px; padding: 2px 9px; font-size: 11px; color: #888; font-weight: 600; }
-.card { background: #fff; border: 1px solid #e8e8e4; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; transition: box-shadow 0.15s; }
-.card-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
-.card-avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; }
-.card-head-right { flex: 1; min-width: 0; }
-.card-author-name { font-size: 12px; font-weight: 600; color: #333; }
-.card-date { font-size: 11px; color: #ccc; }
-.card-tag { display: inline-block; font-size: 10px; border-radius: 99px; padding: 2px 9px; font-weight: 700; margin-bottom: 6px; }
-.card-title { font-size: 14px; font-weight: 700; color: #111; line-height: 1.4; margin-bottom: 6px; }
-.card-body { font-size: 12px; color: #666; line-height: 1.65; }
-.card-tip { font-size: 11px; color: #777; line-height: 1.6; background: #f8f8f5; border-radius: 6px; padding: 7px 10px; margin-top: 8px;}
-.empty-card { border: 1.5px dashed #e0e0da; border-radius: 12px; padding: 24px 16px; text-align: center; color: #ccc; font-size: 12px; cursor: pointer; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+.stat-item .s-label { font-size: 10px; color: #bbb; margin-bottom: 4px; }
+.stat-item .s-val { font-size: 22px; font-weight: 700; color: #111; }
+.wrap { padding: 20px; max-width: 100%; margin: 0 auto; }
+.control-row { display: grid; grid-template-columns: 1fr 320px; gap: 15px; margin-bottom: 20px; align-items: start; }
+.award-box { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 15px; }
+.award-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.award-header h3 { font-size: 13px; font-weight: 700; color: #444; }
+.award-winner { background: #fdfdfb; border: 1px solid #f0f0eb; border-radius: 6px; padding: 10px; flex: 1; }
+.award-winner .rank { color: #f59e0b; font-size: 11px; font-weight: 700; }
+.award-winner .name { font-size: 13px; font-weight: 700; margin: 2px 0; }
+.award-winner .info { font-size: 11px; color: #aaa; }
+.filter-area { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+.filter-inputs { display: flex; gap: 8px; }
+.filter-inputs select { flex: 1; padding: 6px; border: 1px solid #eee; border-radius: 6px; font-size: 12px; }
+.search-row { display: flex; gap: 8px; }
+.search-row input { flex: 1; padding: 6px 10px; border: 1px solid #eee; border-radius: 6px; font-size: 12px; }
+.add-btn { background: #4F46E5; color: #fff; border: none; border-radius: 6px; padding: 0 12px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.board { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; }
+.col { min-width: 260px; flex: 1; }
+.col-header { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; padding-left: 5px; }
+.col-bar { width: 3px; height: 16px; border-radius: 2px; }
+.col-title { font-size: 13px; font-weight: 700; color: #333; flex: 1; }
+.col-count { background: #f0f0eb; padding: 1px 7px; border-radius: 10px; font-size: 10px; color: #999; }
+.card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 15px; margin-bottom: 12px; }
+.card-user { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.avatar { width: 30px; height: 30px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+.u-info .u-name { font-size: 12px; font-weight: 600; color: #333; }
+.u-info .u-date { font-size: 10px; color: #ccc; }
+.card-tag { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; }
+.card-title { font-size: 13.5px; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
+.card-body { font-size: 11.5px; color: #666; line-height: 1.6; margin-bottom: 10px; }
+.card-footer { display: flex; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f9f9f9; }
+.foot-btn { border: 1px solid #eee; background: #fff; padding: 3px 8px; border-radius: 5px; font-size: 10px; color: #999; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
-.modal { background: #fff; border-radius: 16px; padding: 26px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
-.toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: #111; color: #fff; border-radius: 10px; padding: 11px 24px; font-size: 13px; font-weight: 600; opacity: 0; z-index: 999; transition: opacity 0.2s; }
+.modal { background: #fff; padding: 20px; border-radius: 12px; width: 350px; }
+.modal input, .modal select, .modal textarea { width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #eee; border-radius: 6px; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 16px; border-radius: 8px; opacity: 0; transition: 0.3s; z-index: 200; font-size: 12px; }
 .toast.show { opacity: 1; }
 </style>
 </head>
@@ -66,82 +64,82 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 
 
 <div class="header">
   <div class="header-top">
-    <div class="brand">
-      <div class="brand-title">WLC <span>Board</span></div>
-      <div class="brand-sub">Work · Life · Culture — 우리 팀의 살아있는 지식 허브</div>
-    </div>
+    <div class="brand"><div class="brand-title">WLC Board</div><div class="brand-sub">우리 팀의 살아있는 지식 허브</div></div>
     <div class="live-pill"><span class="live-dot"></span> LIVE</div>
   </div>
   <div class="stats-bar">
-    <div class="stat-item"><div class="s-label">전체 게시물</div><div class="s-val" id="statTotal">0</div></div>
-    <div class="stat-item"><div class="s-label">좋아요 합계</div><div class="s-val" id="statLikes">0</div></div>
+    <div class="stat-item"><div class="s-label">전체 게시물</div><div class="s-val" id="statTotal">10</div></div>
+    <div class="stat-item"><div class="s-label">이번 달</div><div class="s-val">1</div></div>
+    <div class="stat-item"><div class="s-label">좋아요</div><div class="s-val">1</div></div>
+    <div class="stat-item"><div class="s-label">댓글</div><div class="s-val">1</div></div>
   </div>
 </div>
 
 <div class="wrap">
   <div class="control-row">
     <div class="award-box">
-      <div class="award-box-header"><h3>🏆 이달의 기여자</h3></div>
-      <div class="award-row" id="awardRow"></div>
-    </div>
-    <div class="filter-box">
-      <div class="filter-row">
-        <select id="filterCat" onchange="renderBoard()"><option value="">전체 카테고리</option></select>
-        <input type="text" id="searchInput" placeholder="검색..." oninput="renderBoard()">
-        <button class="add-btn" onclick="openModal()">+ 새 게시물</button>
+      <div class="award-header"><h3>🏆 이달의 기여자</h3></div>
+      <div id="awardWinner" class="award-winner">
+        <div class="rank">🥇 1위</div>
+        <div class="name">Chanmi Kang (강찬미)</div>
+        <div class="info">게시물 10 · 좋아요 1 · 댓글 1</div>
       </div>
     </div>
+    <div class="filter-area">
+      <div class="filter-inputs"><select id="filterCat" onchange="render()"><option value="">전체 카테고리</option></select><select><option>최신순</option></select></div>
+      <div class="search-row"><input type="text" placeholder="검색..."><button class="add-btn" onclick="openModal()">+ 새 게시물</button></div>
+    </div>
   </div>
-  <div class="board" id="board"></div>
+  <div class="board" id="boardContainer"></div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <div class="modal-title-row"><h2>새 게시물 작성</h2></div>
-    <label>카테고리</label><select id="newCat"></select>
-    <label>작성자 *</label><input id="newAuthor" type="text">
-    <label>제목 *</label><input id="newTitle" type="text">
-    <label>내용 *</label><textarea id="newContent" style="width:100%; height:80px;"></textarea>
-    <label>팁</label><textarea id="newTip" style="width:100%; height:50px;"></textarea>
-    <div class="modal-btns" style="margin-top:10px; display:flex; gap:10px;">
-      <button class="btn-cancel" onclick="closeModal()" style="flex:1;">취소</button>
-      <button class="btn-submit" onclick="submitCard()" style="flex:1; background:#4F46E5; color:#fff; border:none; padding:10px; border-radius:8px;">게시하기</button>
-    </div>
+    <h3 style="margin-bottom:15px;">새 지식 등록</h3>
+    <select id="newCat"></select>
+    <input id="newAuthor" type="text" placeholder="작성자 성함">
+    <input id="newTitle" type="text" placeholder="제목을 입력하세요">
+    <textarea id="newContent" placeholder="내용을 입력하세요" rows="4"></textarea>
+    <button class="add-btn" style="width:100%; height:40px;" onclick="submitCard()">게시하기</button>
+    <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; color:#999; cursor:pointer;">취소</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 const FLOW_URL = "https://default48c3cf2c29be407f80f9b5dc00c35c.de.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/38e4719e3d274fd19345b28e2ec440fc/triggers/manual/paths/invoke?api-version=1"; 
-/* ────────────────────────────────────────────────── */
+/* ────────────────────────────────────────────────────────── */
 
 const CATS = {
-  "업무치트키": {bg:"#EEF4FF", fg:"#3B5BDB", bar:"#4C6EF5"},
-  "팀 패치노트": {bg:"#F3F0FF", fg:"#6741D9", bar:"#7950F2"},
-  "기술 SOS": {bg:"#FFF4E6", fg:"#C96500", bar:"#F76707"},
-  "에너지 세이버": {bg:"#EBFBEE", fg:"#2F9E44", bar:"#40C057"},
-  "미식 가이드": {bg:"#FFF9DB", fg:"#B08700", bar:"#FAB005"},
-  "오프 리듬": {bg:"#FFF0F6", fg:"#C2255C", bar:"#E64980"}
+  "업무치트키": { bar: "#4C6EF5", bg: "#EEF4FF", fg: "#3B5BDB" },
+  "팀 패치노트": { bar: "#7950F2", bg: "#F3F0FF", fg: "#6741D9" },
+  "기술 SOS": { bar: "#F76707", bg: "#FFF4E6", fg: "#C96500" },
+  "에너지 세이버": { bar: "#40C057", bg: "#EBFBEE", fg: "#2F9E44" },
+  "미식 가이드": { bar: "#FAB005", bg: "#FFF9DB", fg: "#B08700" },
+  "오프 리듬": { bar: "#E64980", bg: "#FFF0F6", fg: "#C2255C" }
 };
+
+let defaultData = [
+  { cat: "업무치트키", author: "강찬미", date: "2026-03-17", title: "Claude로 코드 품질 높이기", body: "개발 파트너로 Claude를 활용하는 꿀팁입니다." },
+  { cat: "팀 패치노트", author: "강찬미", date: "2026-03-17", title: "스탠드업 미팅 슬랙 전환 후기", body: "매일 아침 미팅 시간을 30분 단축했습니다." },
+  { cat: "기술 SOS", author: "강찬미", date: "2026-03-16", title: "Ubuntu 드라이버 충돌 해결", body: "특정 버전 라이브러리 충돌 시 대응 방법입니다." },
+  { cat: "미식 가이드", author: "강찬미", date: "2026-03-10", title: "오피스 근처 숨은 맛집 리스트", body: "팀 점심으로 가기 좋은 곳들 정리했어요." }
+];
 
 let cards = [];
 
-function initSelectors() {
-    const fCat = document.getElementById('filterCat');
-    const nCat = document.getElementById('newCat');
-    Object.keys(CATS).forEach(k => {
-        fCat.innerHTML += `<option value="${k}">${k}</option>`;
-        nCat.innerHTML += `<option value="${k}">${k}</option>`;
-    });
-}
-
 async function load() {
   try {
-    const response = await fetch(FLOW_URL);
-    const data = await response.json();
-    cards = (data && data.value) ? data.value : [];
-    renderAll();
-  } catch (e) { console.error(e); }
+    const res = await fetch(FLOW_URL);
+    const data = await res.json();
+    const excelData = (data && data.value) ? data.value : [];
+    // 예시 데이터와 엑셀 데이터를 합쳐서 보여줍니다.
+    cards = [...defaultData, ...excelData];
+    render();
+  } catch (e) {
+    cards = defaultData; // 엑셀 로딩 실패 시 예시라도 보여줌
+    render();
+  }
 }
 
 async function submitCard() {
@@ -150,18 +148,60 @@ async function submitCard() {
     cat: document.getElementById('newCat').value,
     author: document.getElementById('newAuthor').value,
     title: document.getElementById('newTitle').value,
-    content: document.getElementById('newContent').value,
-    tip: document.getElementById('newTip').value,
-    likes: 0
+    content: document.getElementById('newContent').value
   };
-  if(!payload.author || !payload.title) return alert("필수값을 입력하세요");
-  showToast("게시물 전송 중...");
-  await fetch(FLOW_URL, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(payload) });
+  if(!payload.author || !payload.title) return alert("필수 정보를 입력해주세요!");
+  
+  showToast("엑셀에 저장 중...");
+  await fetch(FLOW_URL, { 
+    method: "POST", 
+    headers: {"Content-Type":"application/json"}, 
+    body: JSON.stringify(payload) 
+  });
+  
   closeModal();
-  showToast("등록 완료! (3초 후 새로고침)");
+  showToast("등록 완료! 3초 후 엑셀 데이터를 가져옵니다.");
   setTimeout(load, 3000);
 }
 
-function renderAll() {
-    renderBoard();
-    updateStats();
+function render() {
+  const container = document.getElementById('boardContainer'); container.innerHTML = '';
+  const filterCat = document.getElementById('filterCat').value;
+  
+  Object.keys(CATS).forEach(cat => {
+    if(filterCat && filterCat !== cat) return;
+    const colData = cards.filter(d => d.cat === cat);
+    const s = CATS[cat];
+    const col = document.createElement('div');
+    col.className = 'col';
+    col.innerHTML = `
+      <div class="col-header"><div class="col-bar" style="background:${s.bar}"></div><div class="col-title">${cat}</div><div class="col-count">${colData.length}</div></div>
+      ${colData.map(d => `
+        <div class="card">
+          <div class="card-user"><div class="avatar" style="background:${s.bar}">${d.author[0]}</div><div class="u-info"><div class="u-name">${d.author}</div><div class="u-date">${d.date}</div></div></div>
+          <div class="card-tag" style="background:${s.bg}; color:${s.fg}">${cat}</div>
+          <div class="card-title">${d.title}</div>
+          <div class="card-body">${d.content || d.body}</div>
+          <div class="card-footer"><button class="foot-btn">♥ 0</button><button class="foot-btn">💬 0</button></div>
+        </div>
+      `).join('')}
+    `;
+    container.appendChild(col);
+  });
+  document.getElementById('statTotal').textContent = cards.length;
+}
+
+function init() {
+  const f = document.getElementById('filterCat'); const n = document.getElementById('newCat');
+  Object.keys(CATS).forEach(c => { f.innerHTML += `<option value="${c}">${c}</option>`; n.innerHTML += `<option value="${c}">${c}</option>`; });
+  load();
+}
+
+function openModal() { document.getElementById('modalOverlay').classList.add('open'); }
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2000); }
+
+window.onload = init;
+</script>
+</body>
+</html>
