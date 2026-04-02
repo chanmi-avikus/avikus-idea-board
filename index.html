@@ -538,38 +538,36 @@ const expandState = {};
 function save() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cards)); } catch(e){}
 }
-function load() {
-  let saved = null;
-  try { saved = localStorage.getItem(STORAGE_KEY); } catch(e){}
-  if (saved) {
+<script>
+  /* ... 기존에 선언된 INIT_CARDS 변수들은 그대로 두세요 ... */
+
+  // 1. Power Automate에서 복사한 주소를 여기에 꼭 넣으세요!
+  const FETCH_URL = "여기에_복사한_HTTP_POST_URL_넣기";
+
+  // 2. 이 함수가 엑셀 데이터를 가져오는 핵심입니다. (기존 load 함수를 이걸로 교체)
+  async function load() {
     try {
-      const p = JSON.parse(saved);
-      if (p && p.length > 0) { cards = p; return; }
-    } catch(e){}
-  }
-  cards = INIT_CARDS.map(c => ({...c, comments:[...(c.comments||[])]}));
-  save();
-}
-
-let bc = null;
-try {
-  bc = new BroadcastChannel('wlc_board');
-  bc.onmessage = (e) => {
-    if (e.data && e.data.type === 'update') {
-      cards = e.data.cards;
-      renderAll();
-      showToast('다른 팀원이 업데이트했어요!');
+      const response = await fetch(FETCH_URL);
+      const data = await response.json();
+      
+      // 엑셀에서 가져온 데이터가 있으면 그걸 쓰고, 없으면 기본 샘플(INIT_CARDS)을 보여줍니다.
+      if (data && data.value && data.value.length > 0) {
+        cards = data.value;
+      } else {
+        cards = INIT_CARDS;
+      }
+    } catch (e) {
+      console.error("데이터 로딩 실패:", e);
+      cards = INIT_CARDS;
     }
-  };
-} catch(e){}
-
-function broadcast() { if (bc) bc.postMessage({type:'update', cards}); }
-
-window.addEventListener('storage', (e) => {
-  if (e.key === STORAGE_KEY && e.newValue) {
-    try { cards = JSON.parse(e.newValue); renderAll(); showToast('새 업데이트!'); } catch(er){}
+    renderAll();
   }
-});
+
+  // 3. 페이지가 켜지자마자 실행되게 설정
+  window.onload = load;
+
+  /* ... 나머지 renderAll(), submitCard() 등의 함수는 아래에 그대로 두세요 ... */
+</script>
 
 // ── 렌더 ───────────────────────────────────────────────────
 function renderAll() { renderStats(); renderAwards(); renderBoard(); }
